@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WanderVoyage — Explore the World</title>
+  <meta name="description" content="WanderVoyage — Modern travel booking platform. Discover top destinations, exclusive packages & seamless booking experience." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { poppins: ['Poppins', 'sans-serif'] },
+          colors: {
+            brand: { 50:'#eff6ff',100:'#dbeafe',200:'#bfdbfe',300:'#93c5fd',400:'#60a5fa',500:'#3b82f6',600:'#2563eb',700:'#1d4ed8',800:'#1e3a5f',900:'#0c1e3a' },
+            accent: { 400:'#fb923c',500:'#f97316',600:'#ea580c' },
+          },
+        },
+      },
+    }
+  </script>
+  <style>
+    body{font-family:'Poppins',sans-serif}
+    .hero-bg{background:linear-gradient(135deg,rgba(12,30,58,.82),rgba(30,58,95,.7)),url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1600&q=80') center/cover no-repeat}
+    .dest-card:hover .dest-img{transform:scale(1.08)}
+    .dest-card:hover{transform:translateY(-8px);box-shadow:0 20px 40px rgba(0,0,0,.12)}
+    .dest-img{transition:transform .5s ease}
+    .package-card{transition:transform .3s,box-shadow .3s}
+    .package-card:hover{transform:translateY(-6px);box-shadow:0 16px 48px rgba(59,130,246,.18)}
+    .testimonial-card{transition:transform .3s}
+    .testimonial-card:hover{transform:scale(1.02)}
+    @keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+    .anim{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease}
+    .anim.visible{opacity:1;transform:translateY(0)}
+    .counter-num{font-variant-numeric:tabular-nums}
+    .gallery-item{cursor:pointer;overflow:hidden;border-radius:1rem;transition:transform .3s}
+    .gallery-item:hover{transform:scale(1.03)}
+    .gallery-item img{transition:transform .5s}
+    .gallery-item:hover img{transform:scale(1.1)}
+    .dot{transition:all .3s}
+    .dot.active{background:#3b82f6;width:2rem}
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="fixed top-0 inset-x-0 z-50 transition-all duration-300" id="navbar">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16 sm:h-20">
+      <a href="#" class="flex items-center gap-2 text-white font-extrabold text-xl sm:text-2xl tracking-tight">
+        <span class="text-2xl sm:text-3xl">✈️</span> WanderVoyage
+      </a>
+      <div class="hidden md:flex items-center gap-8 text-sm font-medium text-white/80">
+        <a href="#destinations" class="hover:text-white transition">Destinations</a>
+        <a href="#packages" class="hover:text-white transition">Packages</a>
+        <a href="#gallery" class="hover:text-white transition">Gallery</a>
+        <a href="#testimonials" class="hover:text-white transition">Reviews</a>
+        <a href="#booking" class="bg-accent-500 text-white px-5 py-2 rounded-full font-semibold hover:bg-accent-600 transition shadow-lg">Book Now</a>
+      </div>
+      <button id="menu-btn" class="md:hidden text-white text-2xl">☰</button>
+    </div>
+    <!-- Mobile menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-brand-900/95 backdrop-blur px-6 pb-6 space-y-3 text-white font-medium">
+      <a href="#destinations" class="block py-2 border-b border-white/10">Destinations</a>
+      <a href="#packages" class="block py-2 border-b border-white/10">Packages</a>
+      <a href="#gallery" class="block py-2 border-b border-white/10">Gallery</a>
+      <a href="#testimonials" class="block py-2 border-b border-white/10">Reviews</a>
+      <a href="#booking" class="block bg-accent-500 text-center py-2.5 rounded-full font-semibold mt-2">Book Now</a>
+    </div>
+  </nav>
+
+  <!-- ===== HERO ===== -->
+  <header class="hero-bg min-h-[100vh] flex items-center justify-center text-white text-center px-4">
+    <div class="max-w-3xl">
+      <p class="uppercase tracking-[.25em] text-accent-400 font-semibold text-xs sm:text-sm mb-4 anim">Your Adventure Starts Here</p>
+      <h1 class="text-4xl sm:text-5xl md:text-7xl font-black leading-tight mb-6 anim">Discover the<br/>World's Beauty</h1>
+      <p class="text-white/70 text-base sm:text-lg max-w-xl mx-auto mb-10 anim">Handpicked destinations, unbeatable prices, and unforgettable experiences — all in one place.</p>
+      <!-- Search bar -->
+      <div class="anim bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-3 sm:p-4 flex flex-col sm:flex-row gap-3">
+        <div class="flex-1 flex items-center gap-2 bg-white/10 rounded-xl px-4 py-3">
+          <span>📍</span>
+          <input type="text" placeholder="Where do you want to go?" class="bg-transparent outline-none text-white placeholder-white/50 w-full text-sm" />
+        </div>
+        <div class="flex items-center gap-2 bg-white/10 rounded-xl px-4 py-3">
+          <span>📅</span>
+          <input type="text" placeholder="When?" class="bg-transparent outline-none text-white placeholder-white/50 w-full text-sm" />
+        </div>
+        <button class="bg-accent-500 hover:bg-accent-600 text-white font-bold px-8 py-3 rounded-xl transition shadow-lg whitespace-nowrap">Search ✨</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== STATS ===== -->
+  <section class="relative -mt-16 z-10 max-w-5xl mx-auto px-4">
+    <div class="bg-white rounded-2xl shadow-xl border border-slate-100 grid grid-cols-2 md:grid-cols-4 divide-x divide-slate-100">
+      <div class="text-center py-8 px-4">
+        <div class="text-3xl sm:text-4xl font-black text-brand-600 counter-num" data-target="120">0</div>
+        <p class="text-slate-500 text-xs sm:text-sm mt-1 font-medium">Destinations</p>
+      </div>
+      <div class="text-center py-8 px-4">
+        <div class="text-3xl sm:text-4xl font-black text-brand-600 counter-num" data-target="15000">0</div>
+        <p class="text-slate-500 text-xs sm:text-sm mt-1 font-medium">Happy Travelers</p>
+      </div>
+      <div class="text-center py-8 px-4">
+        <div class="text-3xl sm:text-4xl font-black text-brand-600 counter-num" data-target="98">0</div>
+        <p class="text-slate-500 text-xs sm:text-sm mt-1 font-medium">% Satisfaction</p>
+      </div>
+      <div class="text-center py-8 px-4">
+        <div class="text-3xl sm:text-4xl font-black text-brand-600 counter-num" data-target="250">0</div>
+        <p class="text-slate-500 text-xs sm:text-sm mt-1 font-medium">Tour Packages</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== DESTINATIONS ===== -->
+  <section id="destinations" class="max-w-7xl mx-auto px-4 sm:px-6 py-20 sm:py-28">
+    <div class="text-center mb-12 anim">
+      <span class="text-accent-500 font-semibold text-sm uppercase tracking-widest">Top Picks</span>
+      <h2 class="text-3xl sm:text-4xl font-black text-brand-900 mt-2">Popular Destinations</h2>
+      <p class="text-slate-500 max-w-lg mx-auto mt-3">Explore our handpicked destinations loved by thousands of travelers worldwide.</p>
+    </div>
+    <!-- Filter tabs -->
+    <div class="flex flex-wrap justify-center gap-2 mb-10 anim" id="dest-filters">
+      <button class="filter-btn active px-5 py-2 rounded-full text-sm font-semibold transition" data-filter="all">All</button>
+      <button class="filter-btn px-5 py-2 rounded-full text-sm font-semibold transition" data-filter="europe">Europe</button>
+      <button class="filter-btn px-5 py-2 rounded-full text-sm font-semibold transition" data-filter="asia">Asia</button>
+      <button class="filter-btn px-5 py-2 rounded-full text-sm font-semibold transition" data-filter="africa">Africa</button>
+      <button class="filter-btn px-5 py-2 rounded-full text-sm font-semibold transition" data-filter="americas">Americas</button>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8" id="dest-grid">
+      <!-- Cards injected via JS -->
+    </div>
+  </section>
+
+  <!-- ===== PACKAGES ===== -->
+  <section id="packages" class="bg-brand-900 text-white py-20 sm:py-28">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
+      <div class="text-center mb-14 anim">
+        <span class="text-accent-400 font-semibold text-sm uppercase tracking-widest">Best Value</span>
+        <h2 class="text-3xl sm:text-4xl font-black mt-2">Travel Packages</h2>
+        <p class="text-white/60 max-w-lg mx-auto mt-3">Choose a plan that fits your adventure style — from weekend getaways to extended explorations.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Basic -->
+        <div class="package-card bg-white/5 backdrop-blur border border-white/10 rounded-2xl p-8 anim">
+          <div class="text-accent-400 text-4xl mb-4">🏖️</div>
+          <h3 class="text-xl font-bold mb-1">Weekend Escape</h3>
+          <p class="text-white/50 text-sm mb-6">Perfect for short trips</p>
+          <div class="mb-6"><span class="text-4xl font-black">$299</span><span class="text-white/50 text-sm">/person</span></div>
+          <ul class="space-y-3 text-sm text-white/70 mb-8">
+            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> 3 Days / 2 Nights</li>
+            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Hotel Accommodation</li>
+            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Breakfast Included</li>
+            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> City Tour Guide</li>
+            <li class="flex items-center gap-2 opacity-40"><span>✗</span> Airport Transfer</li>
+            <li class="flex items-center gap-2 opacity-40"><span>✗</span> Adventure Activities</li>
+          </ul>
+          <a href="#booking" class="block text-center bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold py-3 rounded-xl transition">Choose Plan</a>
+        </div>
+        <!-- Popular -->
+        <div class="package-card bg-accent-500 border-2 border-accent-400 rounded-2xl p-8 relative anim">
+          <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-white text-accent-600 text-xs font-bold px-4 py-1 rounded-full shadow">⭐ MOST POPULAR</div>
+          <div class="text-white text-4xl mb-4">🌄</div>
+          <h3 class="text-xl font-bold mb-1">Explorer Plus</h3>
+          <p class="text-white/70 text-sm mb-6">Our best-selling package</p>
+          <div class="mb-6"><span class="text-4xl font-black">$599</span><span class="text-white/70 text-sm">/person</span></div>
+          <ul class="space-y-3 text-sm text-white/90 mb-8">
+            <li class="flex items-center gap-2"><span class="text-yellow-200">✓</span> 7 Days / 6 Nights</li>
+            <li class="flex items-center gap-2"><span class="text-yellow-200">✓</span> 4-Star Hotel</li>
+            <li class="flex items-center gap-2"><span class="text-yellow-200">✓</span> All Meals Included</li>
+            <li class="flex items-center gap-2"><span class="text-yellow-200">✓</span> Guided Tours</li>
+            <li class="flex items-center gap-2"><span class="text-yellow-200">✓</span> Airport Transfer</li>
+            <li class="flex items-center gap-2 opacity-50"><span>✗</span> Premium Activities</li>
+          </ul>
+          <a href="#booking" class="block text-center bg-white text-accent-600 font-bold py-3 rounded-xl hover:bg-white/90 transition shadow-lg">Choose Plan</a>
+        </div>
+        <!-- Premium -->
+        <div class="package-card bg-white/5 backdrop-blur border border-white/10 rounded-2xl p-8 anim">
+          <div class="text-accent-400 text-4xl mb-4">🏔️</div>
+          <h3 class="text-xl font-bold mb-1">Grand Adventure</h3>
+          <p class="text-white/50 text-sm mb-6">Ultimate travel experience</p>
+          <div class="mb-6"><span class="text-4xl font-black">$999</span><span class="text-white/50 text-sm">/person</span></div>
+          <ul class="space-y-3 text-sm text-white/70 mb-8">
+            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> 14 Days / 13 Nights</li>
+            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> 5-Star Luxury Hotel</li>
+            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> All-Inclusive</li>
+            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Private Guide</li>
+            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> VIP Airport Transfer</li>
+            <li class="flex items-center gap-2"><span class="text-green-400">✓</span> Premium Activities</li>
+          </ul>
+          <a href="#booking" class="block text-center bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold py-3 rounded-xl transition">Choose Plan</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== GALLERY ===== -->
+  <section id="gallery" class="max-w-7xl mx-auto px-4 sm:px-6 py-20 sm:py-28">
+    <div class="text-center mb-12 anim">
+      <span class="text-accent-500 font-semibold text-sm uppercase tracking-widest">Visual Stories</span>
+      <h2 class="text-3xl sm:text-4xl font-black text-brand-900 mt-2">Travel Gallery</h2>
+      <p class="text-slate-500 max-w-lg mx-auto mt-3">A glimpse into the breathtaking moments our travelers have captured.</p>
+    </div>
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 anim">
+      <div class="gallery-item row-span-2"><img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=600&q=80" alt="Paris" class="w-full h-full object-cover" loading="lazy"/></div>
+      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1526392060635-9d6019884377?w=400&q=80" alt="Peru" class="w-full h-48 object-cover" loading="lazy"/></div>
+      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1528164344705-47542687000d?w=400&q=80" alt="Japan" class="w-full h-48 object-cover" loading="lazy"/></div>
+      <div class="gallery-item row-span-2"><img src="https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=600&q=80" alt="Italy" class="w-full h-full object-cover" loading="lazy"/></div>
+      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=400&q=80" alt="Dubai" class="w-full h-48 object-cover" loading="lazy"/></div>
+      <div class="gallery-item"><img src="https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?w=400&q=80" alt="Maldives" class="w-full h-48 object-cover" loading="lazy"/></div>
+      <div class="gallery-item col-span-2"><img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=800&q=80" alt="Switzerland" class="w-full h-48 object-cover" loading="lazy"/></div>
+    </div>
+  </section>
+
+  <!-- ===== TESTIMONIALS ===== -->
+  <section id="testimonials" class="bg-slate-100 py-20 sm:py-28">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6">
+      <div class="text-center mb-12 anim">
+        <span class="text-accent-500 font-semibold text-sm uppercase tracking-widest">Traveler Stories</span>
+        <h2 class="text-3xl sm:text-4xl font-black text-brand-900 mt-2">What Our Travelers Say</h2>
+      </div>
+      <div class="relative anim">
+        <div id="testimonial-track" class="overflow-hidden">
+          <div id="testimonial-slider" class="flex transition-transform duration-500 ease-in-out">
+            <!-- Testimonials injected via JS -->
+          </div>
+        </div>
+        <div class="flex justify-center gap-2 mt-8" id="testimonial-dots"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== BOOKING FORM ===== -->
+  <section id="booking" class="max-w-4xl mx-auto px-4 sm:px-6 py-20 sm:py-28">
+    <div class="bg-white rounded-3xl shadow-xl border border-slate-100 overflow-hidden">
+      <div class="bg-brand-900 text-white p-8 sm:p-10 text-center">
+        <h2 class="text-2xl sm:text-3xl font-black">Book Your Adventure</h2>
+        <p class="text-white/60 mt-2">Fill in the details and we'll get back to you within 24 hours.</p>
+      </div>
+      <form id="booking-form" class="p-6 sm:p-10 space-y-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <div>
+            <label class="block text-sm font-semibold text-slate-700 mb-1.5">Full Name *</label>
+            <input type="text" id="fname" required class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition" placeholder="John Doe" />
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-slate-700 mb-1.5">Email *</label>
+            <input type="email" id="femail" required class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition" placeholder="john@example.com" />
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-slate-700 mb-1.5">Destination</label>
+            <select id="fdest" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition bg-white">
+              <option value="">Select destination...</option>
+              <option>Paris, France</option>
+              <option>Bali, Indonesia</option>
+              <option>Santorini, Greece</option>
+              <option>Tokyo, Japan</option>
+              <option>Cape Town, South Africa</option>
+              <option>Machu Picchu, Peru</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-slate-700 mb-1.5">Travel Date</label>
+            <input type="date" id="fdate" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition" />
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-slate-700 mb-1.5">Travelers</label>
+            <select id="ftravelers" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition bg-white">
+              <option>1 Traveler</option>
+              <option>2 Travelers</option>
+              <option>3 Travelers</option>
+              <option>4 Travelers</option>
+              <option>5+ Travelers</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-slate-700 mb-1.5">Package</label>
+            <select id="fpackage" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition bg-white">
+              <option>Weekend Escape — $299</option>
+              <option>Explorer Plus — $599</option>
+              <option>Grand Adventure — $999</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-1.5">Special Requests</label>
+          <textarea rows="3" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition resize-none" placeholder="Any special requirements..."></textarea>
+        </div>
+        <button type="submit" class="w-full bg-accent-500 hover:bg-accent-600 text-white font-bold py-3.5 rounded-xl transition shadow-lg text-lg">Submit Booking Request ✈️</button>
+        <div id="form-msg" class="hidden text-center text-green-600 font-semibold bg-green-50 py-3 rounded-xl">✅ Booking request submitted! We'll contact you soon.</div>
+      </form>
+    </div>
+  </section>
+
+  <!-- ===== NEWSLETTER ===== -->
+  <section class="bg-brand-900 py-16">
+    <div class="max-w-2xl mx-auto px-4 text-center text-white">
+      <h2 class="text-2xl sm:text-3xl font-black mb-3">Get Exclusive Travel Deals</h2>
+      <p class="text-white/60 mb-8">Subscribe to our newsletter and never miss a deal.</p>
+      <form class="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto" onsubmit="event.preventDefault();this.querySelector('input').value='';alert('Subscribed!')">
+        <input type="email" required placeholder="Enter your email" class="flex-1 bg-white/10 border border-white/20 rounded-xl px-5 py-3 text-white placeholder-white/40 outline-none focus:ring-2 focus:ring-accent-500 text-sm" />
+        <button class="bg-accent-500 hover:bg-accent-600 font-bold px-8 py-3 rounded-xl transition shadow-lg whitespace-nowrap">Subscribe 🔔</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="bg-brand-900 border-t border-white/10 text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+      <div>
+        <h3 class="flex items-center gap-2 text-xl font-extrabold mb-4">✈️ WanderVoyage</h3>
+        <p class="text-white/50 text-sm leading-relaxed">Making travel dreams come true since 2024. Discover the world with confidence and style.</p>
+      </div>
+      <div>
+        <h4 class="font-bold text-sm uppercase tracking-wider mb-4 text-white/80">Quick Links</h4>
+        <ul class="space-y-2 text-sm text-white/50">
+          <li><a href="#destinations" class="hover:text-white transition">Destinations</a></li>
+          <li><a href="#packages" class="hover:text-white transition">Packages</a></li>
+          <li><a href="#gallery" class="hover:text-white transition">Gallery</a></li>
+          <li><a href="#booking" class="hover:text-white transition">Book Now</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-bold text-sm uppercase tracking-wider mb-4 text-white/80">Destinations</h4>
+        <ul class="space-y-2 text-sm text-white/50">
+          <li>Paris, France</li>
+          <li>Bali, Indonesia</li>
+          <li>Santorini, Greece</li>
+          <li>Tokyo, Japan</li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="font-bold text-sm uppercase tracking-wider mb-4 text-white/80">Contact</h4>
+        <ul class="space-y-2 text-sm text-white/50">
+          <li>📧 hello@wandervoyage.com</li>
+          <li>📞 +1 (555) 123-4567</li>
+          <li>📍 Alexandria, Egypt</li>
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-white/10 text-center py-6 text-white/30 text-xs">
+      © 2025 WanderVoyage. Designed by <a href="https://mahmoudmagdyedu.github.io/My-Portfolio/" class="text-accent-400 hover:underline">Mahmoud Magdy</a>
+    </div>
+  </footer>
+
+  <!-- ===== JAVASCRIPT ===== -->
+  <script>
+    // ---- Data ----
+    const destinations = [
+      { name:'Paris',country:'France',region:'europe',price:'$599',rating:'4.9',img:'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=600&q=80',desc:'City of Lights — iconic landmarks, world-class cuisine & romantic ambiance.' },
+      { name:'Bali',country:'Indonesia',region:'asia',price:'$449',rating:'4.8',img:'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=600&q=80',desc:'Tropical paradise with stunning temples, rice terraces & pristine beaches.' },
+      { name:'Santorini',country:'Greece',region:'europe',price:'$699',rating:'4.9',img:'https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=600&q=80',desc:'Breathtaking sunsets, white-washed buildings & crystal-clear Aegean waters.' },
+      { name:'Tokyo',country:'Japan',region:'asia',price:'$549',rating:'4.7',img:'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=600&q=80',desc:'A vibrant blend of ancient traditions and cutting-edge technology.' },
+      { name:'Cape Town',country:'South Africa',region:'africa',price:'$499',rating:'4.6',img:'https://images.unsplash.com/photo-1580060839134-75a5edca2e99?w=600&q=80',desc:'Table Mountain, safaris, vineyards & one of the world\'s most scenic coastlines.' },
+      { name:'Machu Picchu',country:'Peru',region:'americas',price:'$749',rating:'4.9',img:'https://images.unsplash.com/photo-1526392060635-9d6019884377?w=600&q=80',desc:'Ancient Incan citadel perched high in the Andes — a bucket-list wonder.' },
+    ];
+
+    const testimonials = [
+      { name:'Sarah M.',location:'New York',text:'WanderVoyage made our honeymoon absolutely magical. From Paris to Santorini, every detail was perfect!',avatar:'https://i.pravatar.cc/80?img=1',rating:5 },
+      { name:'Ahmed K.',location:'Cairo',text:'Best travel experience I\'ve ever had. The Explorer Plus package to Bali exceeded all expectations.',avatar:'https://i.pravatar.cc/80?img=3',rating:5 },
+      { name:'Emma L.',location:'London',text:'Incredible value for money. The team was super responsive and the itinerary was thoughtfully planned.',avatar:'https://i.pravatar.cc/80?img=5',rating:4 },
+      { name:'Carlos R.',location:'Madrid',text:'From booking to landing back home — seamless experience. Already planning our next trip with WanderVoyage!',avatar:'https://i.pravatar.cc/80?img=8',rating:5 },
+    ];
+
+    // ---- Navbar scroll ----
+    const nav=document.getElementById('navbar');
+    window.addEventListener('scroll',()=>{
+      nav.classList.toggle('bg-brand-900/95',window.scrollY>60);
+      nav.classList.toggle('backdrop-blur',window.scrollY>60);
+      nav.classList.toggle('shadow-lg',window.scrollY>60);
+    });
+
+    // ---- Mobile menu ----
+    const menuBtn=document.getElementById('menu-btn'),mobileMenu=document.getElementById('mobile-menu');
+    menuBtn.addEventListener('click',()=>mobileMenu.classList.toggle('hidden'));
+    mobileMenu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mobileMenu.classList.add('hidden')));
+
+    // ---- Render destinations ----
+    const destGrid=document.getElementById('dest-grid');
+    function renderDests(filter='all'){
+      const filtered=filter==='all'?destinations:destinations.filter(d=>d.region===filter);
+      destGrid.innerHTML=filtered.map(d=>`
+        <div class="dest-card bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm transition-all duration-300">
+          <div class="relative h-52 overflow-hidden">
+            <img src="${d.img}" alt="${d.name}" class="dest-img w-full h-full object-cover" loading="lazy"/>
+            <div class="absolute top-3 right-3 bg-white/90 backdrop-blur text-xs font-bold px-3 py-1 rounded-full text-brand-700 shadow">${d.rating} ⭐</div>
+            <div class="absolute bottom-3 left-3 bg-accent-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow">From ${d.price}</div>
+          </div>
+          <div class="p-5">
+            <h3 class="font-bold text-lg text-brand-900">${d.name}, <span class="text-slate-500 font-medium text-base">${d.country}</span></h3>
+            <p class="text-slate-500 text-sm mt-2 leading-relaxed">${d.desc}</p>
+            <a href="#booking" class="mt-4 inline-flex items-center gap-1 text-brand-600 font-semibold text-sm hover:text-accent-500 transition">Explore →</a>
+          </div>
+        </div>
+      `).join('');
+    }
+    renderDests();
+
+    // ---- Filter buttons ----
+    document.querySelectorAll('.filter-btn').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        document.querySelectorAll('.filter-btn').forEach(b=>{b.classList.remove('active','bg-brand-600','text-white');b.classList.add('bg-slate-100','text-slate-600')});
+        btn.classList.add('active','bg-brand-600','text-white');btn.classList.remove('bg-slate-100','text-slate-600');
+        renderDests(btn.dataset.filter);
+      });
+    });
+    // Init filter styling
+    document.querySelectorAll('.filter-btn').forEach(b=>{
+      if(b.classList.contains('active')){b.classList.add('bg-brand-600','text-white')}else{b.classList.add('bg-slate-100','text-slate-600')}
+    });
+
+    // ---- Testimonials ----
+    const slider=document.getElementById('testimonial-slider'),dotsC=document.getElementById('testimonial-dots');
+    let tIdx=0;
+    slider.innerHTML=testimonials.map(t=>`
+      <div class="testimonial-card flex-shrink-0 w-full bg-white rounded-2xl p-8 shadow-sm border border-slate-100">
+        <div class="flex items-center gap-4 mb-5">
+          <img src="${t.avatar}" alt="${t.name}" class="w-14 h-14 rounded-full object-cover border-2 border-brand-200 shadow" />
+          <div>
+            <h4 class="font-bold text-brand-900">${t.name}</h4>
+            <p class="text-slate-400 text-sm">📍 ${t.location}</p>
+          </div>
+          <div class="ml-auto text-accent-400 text-lg">${'★'.repeat(t.rating)}${'☆'.repeat(5-t.rating)}</div>
+        </div>
+        <p class="text-slate-600 leading-relaxed italic">"${t.text}"</p>
+      </div>
+    `).join('');
+    // dots
+    testimonials.forEach((_,i)=>{
+      const dot=document.createElement('button');
+      dot.className='dot w-3 h-3 rounded-full bg-slate-300';
+      if(i===0)dot.classList.add('active');
+      dot.addEventListener('click',()=>goTo(i));
+      dotsC.appendChild(dot);
+    });
+    function goTo(i){tIdx=i;slider.style.transform=`translateX(-${i*100}%)`;document.querySelectorAll('.dot').forEach((d,j)=>{d.classList.toggle('active',j===i);d.style.width=j===i?'2rem':'.75rem'})}
+    setInterval(()=>goTo((tIdx+1)%testimonials.length),5000);
+
+    // ---- Counters ----
+    const counters=document.querySelectorAll('.counter-num');
+    let counted=false;
+    function animateCounters(){
+      if(counted)return;
+      counters.forEach(c=>{
+        const target=+c.dataset.target,dur=2000,step=target/(dur/16);
+        let current=0;
+        const timer=setInterval(()=>{current+=step;if(current>=target){c.textContent=target.toLocaleString();clearInterval(timer)}else{c.textContent=Math.floor(current).toLocaleString()}},16);
+      });
+      counted=true;
+    }
+    const statsObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)animateCounters()})},{threshold:.3});
+    counters.forEach(c=>statsObs.observe(c));
+
+    // ---- Scroll animations ----
+    const animObs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:.15});
+    document.querySelectorAll('.anim').forEach(el=>animObs.observe(el));
+
+    // ---- Booking form ----
+    document.getElementById('booking-form').addEventListener('submit',e=>{
+      e.preventDefault();
+      const msg=document.getElementById('form-msg');
+      msg.classList.remove('hidden');
+      e.target.reset();
+      setTimeout(()=>msg.classList.add('hidden'),5000);
+    });
+
+    // ---- Smooth scroll ----
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click',e=>{e.preventDefault();const t=document.querySelector(a.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth',block:'start'})});
+    });
+  </script>
+</body>
+</html>
